@@ -7,11 +7,68 @@
     <link rel="stylesheet" href="{{ asset('css/articles.css') }}">
 </head>
 <body>
-    <!-- Blog Header -->
-    <div class="blog-header">
-        <div class="blog-header-content">
-            <h1 class="blog-title">Blog</h1>
-            <p class="blog-description">Découvrez nos derniers articles et actualités</p>
+    <!-- Wrapper pour positionner le profil en dehors du header -->
+    <div style="position: relative;">
+        <!-- Header Unifié avec Navbar -->
+        <div class="unified-header">
+            <div class="navbar-container">
+                <div class="navbar-brand">
+                    <h1 class="nav-title">Blog</h1>
+                </div>
+            </div>
+            <div class="blog-header-content">
+                <p class="blog-description">Découvrez nos derniers articles et actualités</p>
+            </div>
+        </div>
+        <!-- Profil positionné en dehors du header -->
+        <div class="navbar-profile" style="position: absolute; top: 30px; right: 40px;">
+            @guest
+                <div class="profile-button">
+                    <div class="profile-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="{{ route('login') }}" class="dropdown-item">
+                            <span class="dropdown-icon">🔓</span>
+                            Connexion
+                        </a>
+                        <a href="{{ route('register') }}" class="dropdown-item">
+                            <span class="dropdown-icon">📝</span>
+                            Inscription
+                        </a>
+                    </div>
+                </div>
+            @endguest
+
+            @auth
+                <div class="profile-button">
+                    <div class="profile-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="profile-dropdown">
+                        <div class="dropdown-user">
+                            {{ auth()->user()->name }}
+                        </div>
+                        <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span>
+                            Mon Profil
+                        </a>
+                        <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                            @csrf
+                            <button type="submit" class="dropdown-item dropdown-logout">
+                                <span class="dropdown-icon">🚪</span>
+                                Déconnexion
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endauth
         </div>
     </div>
 
