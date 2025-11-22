@@ -13,7 +13,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::all();
-    return view('index', compact('articles')); 
+        return view('index', compact('articles'));
     }
 
     /**
@@ -21,7 +21,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-         return view('create');
+        return view('create');
     }
 
     /**
@@ -54,7 +54,7 @@ class ArticleController extends Controller
     public function show(string $id)
     {
         $article = Article::findOrFail($id);
-    return view('show', compact('article'));
+        return view('show', compact('article'));
     }
 
     /**
@@ -63,7 +63,7 @@ class ArticleController extends Controller
     public function edit(string $id)
     {
         $article = Article::findOrFail($id);
-    return view('edit', compact('article'));
+        return view('edit', compact('article'));
     }
 
     /**
