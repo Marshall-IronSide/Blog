@@ -279,12 +279,3 @@ For questions or issues, please open an issue on GitHub or contact the project m
 ---
 
 ⭐ If you find this project helpful, please give it a star!
-
-## 📸 Screenshots
-
-<!-- Add screenshots of your application here -->
-```
-[Home Page]
-[Post Detail Page]
-[Admin Dashboard]
-```
