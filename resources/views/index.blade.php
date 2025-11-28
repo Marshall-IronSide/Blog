@@ -7,22 +7,16 @@
     <link rel="stylesheet" href="{{ asset('css/articles.css') }}">
 </head>
 <body>
-    <!-- Wrapper pour positionner le profil en dehors du header -->
-    <div style="position: relative;">
-        <!-- Header Unifié avec Navbar -->
-        <div class="unified-header">
+    <!-- Header Unifié avec Navbar -->
+    <div class="unified-header">
             <div class="navbar-container">
                 <div class="navbar-brand">
-                    <h1 class="nav-title">Blog</h1>
+                    <h1 class="nav-title">✨ Blog</h1>
                 </div>
-            </div>
-            <div class="blog-header-content">
-                <p class="blog-description">Découvrez nos derniers articles et actualités</p>
-            </div>
-        </div>
-        <!-- Profil positionné en dehors du header -->
-        <div class="navbar-profile" style="position: absolute; top: 30px; right: 40px;">
-            @guest
+                
+                <!-- Profile section moved inside navbar -->
+                <div class="navbar-profile">
+                    @guest
                 <div class="profile-button">
                     <div class="profile-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -69,11 +63,15 @@
                     </div>
                 </div>
             @endauth
+                </div>
+            </div>
+            <div class="blog-header-content">
+                <p class="blog-description">Découvrez nos derniers articles et actualités</p>
+            </div>
         </div>
-    </div>
 
     <div class="container">
-        <!-- Header Section -->
+        <!-- Page Header -->
         <div class="page-header">
             <div class="header-content">
                 <h2>📰 Liste des Articles</h2>
@@ -90,46 +88,34 @@
             </div>
         @endif
 
-        <!-- Articles Table or Empty State -->
+        <!-- Articles Grid or Empty State -->
         @if($articles->count() > 0)
-            <div class="table-wrapper">
-                <div class="table-info">
-                    <span class="article-count">{{ $articles->count() }} article{{ $articles->count() > 1 ? 's' : '' }}</span>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="col-id">#</th>
-                            <th class="col-titre">Titre</th>
-                            <th class="col-date">Date de création</th>
-                            <th class="col-actions">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($articles as $article)
-                            <tr>
-                                <td class="col-id"><span class="article-id">{{ $article->id }}</span></td>
-                                <td class="col-titre">
-                                    <span class="article-title">{{ $article->titre }}</span>
-                                </td>
-                                <td class="col-date">
-                                    <span class="article-date">{{ $article->created_at->format('d/m/Y') }}</span>
-                                </td>
-                                <td class="col-actions">
-                                    <div class="actions">
-                                        <a href="{{ route('articles.show', $article->id) }}" class="btn btn-info" title="Voir cet article">👁️ Voir</a>
-                                        <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-warning" title="Modifier cet article">✏️ Modifier</a>
-                                        <form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" title="Supprimer cet article">🗑️ Supprimer</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="article-count"><span>{{ $articles->count() }}</span> article{{ $articles->count() > 1 ? 's' : '' }}</div>
+                <div class="stats-date">Dernière mise à jour: {{ now()->format('d/m/Y') }}</div>
+            </div>
+
+            <!-- Articles Grid -->
+            <div class="articles-grid">
+                @foreach($articles as $article)
+                    <div class="article-card">
+                        <div class="article-id-badge">#{{ $article->id }}</div>
+                        <h3 class="article-title">{{ $article->titre }}</h3>
+                        <div class="article-date">
+                            📅 {{ $article->created_at->format('d/m/Y') }}
+                        </div>
+                        <div class="article-actions">
+                            <a href="{{ route('articles.show', $article->id) }}" class="btn btn-info" title="Voir cet article">👁️ Voir</a>
+                            <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-warning" title="Modifier cet article">✏️ Modifier</a>
+                            <form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger" title="Supprimer cet article">🗑️ Supprimer</button>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         @else
             <div class="empty-state">
