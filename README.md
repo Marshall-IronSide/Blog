@@ -1,6 +1,6 @@
 # Laravel Blog 📝
 
-A modern blog application built with Laravel framework as part of an academic project (Website is in french).
+A modern blog application built with Laravel framework as part of an academic project (Website in french).
 
 ## 📋 About
 
