@@ -17,7 +17,7 @@
                     <div class="flex justify-center mb-4">
                         <div class="relative">
                             <img class="h-24 w-24 rounded-full object-cover border-4 border-gray-200" 
-                                 src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&color=7F9CF5&background=EBF4FF" 
+                                 src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->full_name) }}&color=7F9CF5&background=EBF4FF" 
                                  alt="{{ Auth::user()->name }}">
                             <span class="absolute bottom-0 right-0 block h-6 w-6 rounded-full bg-green-400 border-2 border-white"></span>
                         </div>
