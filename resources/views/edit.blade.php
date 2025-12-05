@@ -10,7 +10,7 @@
     <div class="container">
         <h1>✏️ Modifier l'article</h1>
 
-        <form action="{{ route('articles.update', $article->id) }}" method="POST">
+        <form action="{{ route('articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -26,6 +26,19 @@
                 <label for="contenu">Contenu de l'article *</label>
                 <textarea id="contenu" name="contenu" placeholder="Entrez le contenu de l'article">{{ old('contenu', $article->contenu) }}</textarea>
                 @error('contenu')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="banner_image">Image bannière</label>
+                @if($article->banner_image)
+                    <div style="margin-bottom: 10px;">
+                        <img src="{{ asset('storage/' . $article->banner_image) }}" alt="{{ $article->titre }}" style="max-width: 200px; max-height: 150px;">
+                    </div>
+                @endif
+                <input type="file" id="banner_image" name="banner_image" accept="image/*">
+                @error('banner_image')
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>

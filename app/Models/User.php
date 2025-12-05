@@ -47,9 +47,20 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
-    
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+    // Relation avec Article : un utilisateur peut avoir plusieurs articles
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
+
+    // Relation avec Comment : un utilisateur peut avoir plusieurs commentaires
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
