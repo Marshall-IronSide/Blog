@@ -121,6 +121,7 @@
 
             <!-- Articles Grid -->
             <div class="articles-grid">
+                <?php $i = 0; ?>
                 @foreach($articles as $article)
                     <div class="article-card">
                         @if($article->banner_image)
@@ -128,7 +129,7 @@
                                 <img src="{{ asset('storage/' . $article->banner_image) }}" alt="{{ $article->titre }}" style="width: 100%; height: 200px; object-fit: cover;">
                             </div>
                         @endif
-                        <div class="article-id-badge">#{{ $article->id }}</div>
+                        <div class="article-id-badge">#{{ ++$i }}</div>
                         <h3 class="article-title">{{ $article->titre }}</h3>
                         <div class="article-date">
                             👤 {{ $article->user->full_name ?? 'Système' }} • 📅 {{ $article->created_at->format('d/m/Y') }}
