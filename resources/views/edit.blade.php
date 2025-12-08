@@ -31,23 +31,71 @@
             </div>
 
             <div class="form-group">
-                <label for="banner_image">Image bannière</label>
+                <label>Image bannière</label>
                 @if($article->banner_image)
                     <div style="margin-bottom: 10px;">
-                        <img src="{{ asset('storage/' . $article->banner_image) }}" alt="{{ $article->titre }}" style="max-width: 200px; max-height: 150px;">
+                        <img src="{{ asset('storage/' . $article->banner_image) }}" alt="{{ $article->titre }}" style="max-width: 200px; max-height: 150px; border-radius: 8px;">
                     </div>
                 @endif
-                <input type="file" id="banner_image" name="banner_image" accept="image/*">
+                <div class="file-input-wrapper">
+                    <input type="file" id="banner_image" name="banner_image" accept="image/*">
+                    <label for="banner_image" class="file-input-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <div class="file-input-text">
+                            <strong>Cliquez ou glissez-déposez</strong>
+                            <small>PNG, JPG, GIF jusqu'à 2MB</small>
+                        </div>
+                    </label>
+                </div>
+                <div id="file-name"></div>
                 @error('banner_image')
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>
 
             <div class="button-group">
-                <button type="submit" class="btn btn-warning"> Mettre à jour</button>
+                <button type="submit" class="btn btn-warning">✏️ Mettre à jour</button>
                 <a href="{{ route('articles.show', $article->id) }}" class="btn btn-secondary">❌ Annuler</a>
             </div>
         </form>
     </div>
+
+    <script>
+        const fileInput = document.getElementById('banner_image');
+        const fileNameDiv = document.getElementById('file-name');
+        const fileLabel = document.querySelector('.file-input-label');
+
+        fileInput.addEventListener('change', function(e) {
+            if (this.files.length > 0) {
+                const fileName = this.files[0].name;
+                const fileSize = (this.files[0].size / 1024 / 1024).toFixed(2);
+                fileNameDiv.innerHTML = `✅ <strong>${fileName}</strong> (${fileSize} MB)`;
+                fileNameDiv.classList.add('active', 'success');
+            }
+        });
+
+        // Drag and drop
+        fileLabel.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileLabel.style.background = 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.15))';
+            fileLabel.style.borderColor = 'rgba(139, 92, 246, 0.6)';
+        });
+
+        fileLabel.addEventListener('dragleave', () => {
+            fileLabel.style.background = 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.05))';
+            fileLabel.style.borderColor = 'rgba(139, 92, 246, 0.3)';
+        });
+
+        fileLabel.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileInput.files = e.dataTransfer.files;
+            const event = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(event);
+            fileLabel.style.background = 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.05))';
+            fileLabel.style.borderColor = 'rgba(139, 92, 246, 0.3)';
+        });
+    </script>
 </body>
 </html>
