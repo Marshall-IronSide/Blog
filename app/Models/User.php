@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\CustomVerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -52,6 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return "{$this->first_name} {$this->last_name}";
     }
+    
     // Relation avec Article : un utilisateur peut avoir plusieurs articles
     public function articles()
     {
@@ -62,5 +64,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    // Utiliser la notification personnalisée pour la vérification d'email
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new CustomVerifyEmail());
     }
 }
